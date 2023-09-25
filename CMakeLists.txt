@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.18)
 
-# Configure the project to use llvm-mos targeting the NES with the MMC1 mapper
-set(LLVM_MOS_PLATFORM nes-mmc1)
+# Configure the project to use llvm-mos targeting the NES with the Action 53 mapper
+set(LLVM_MOS_PLATFORM nes-action53)
 find_package(llvm-mos-sdk REQUIRED)
 
 # Set the project name and source types.
@@ -33,7 +33,7 @@ add_link_options(
 
 # This creates the `chr_data` object with the contents of CHR-ROM. See
 # chr/* for more info.
-add_subdirectory(chr)
+ add_subdirectory(chr)
 
 # Gather all project source and header files to compile into the final ROM image
 set(SRC ${CMAKE_SOURCE_DIR}/src)
@@ -63,7 +63,7 @@ target_link_options(${ROM} PRIVATE
 
     # `common.ld` is required by all NES targets. It sets up basic sections like
     # `prg_rom` and `chr_rom` among other bookkeeping
-    -Tcommon.ld
+    #-Tcommon.ld
 
     # `c-in-prg-ram.ld` makes it so that any variables that must be stored in
     # RAM will use the PRG-RAM (aka Work RAM, WRAM) chip on the cartridge
@@ -71,15 +71,16 @@ target_link_options(${ROM} PRIVATE
     #
     # This requires setting __prg_ram_size to a non-zero value in config.s
     # (TODO: check if it's expecting 8KiB increments?)
-    -Tc-in-prg-ram-0.ld
+		# Action 53 mapper has no PRG-RAM
+    #-Tc-in-prg-ram-0.ld
 
     # `prg-rom-fixed` uses the default 32 KiB of PRG-ROM. TODO: PRG-ROM banking
-    -Tprg-rom-fixed.ld
+    #-Tprg-rom-fixed.ld
 )
 
 target_link_libraries(${ROM}
     # First-party, as described above
-    chr_data
+    #chr_data
 
     # Second-party, included in llvm-mos
     neslib
