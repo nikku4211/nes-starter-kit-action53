@@ -1,12 +1,12 @@
 # Cogwheel's NES Starter Kit
 
-This is an example project using llvm-mos targeting the MMC1 mapper. It's very much work-in-progress. There will be more to come.
+This is an example project using llvm-mos targeting the Action 53 mapper. It's very much work-in-progress. There will be more to come.
 
 ![nes-starter-kit](https://github.com/cogwheel/nes-starter-kit/assets/2105215/e4b32ece-9fce-4696-8c72-0c00c4c274be)
 
 ## Prerequisites
 
-Note: I've only tested this on Ubuntu 22.04 (bash) and Windows 11 (powershell). YMMV.
+Note: I've only tested this on Ubuntu 22.04 (bash) and Windows 10/11 (powershell). YMMV.
 
 - [llvm-mos SDK](https://github.com/llvm-mos/llvm-mos-sdk#download)
   - This needs to be findable by CMake. You can set CMAKE_PREFIX_PATH to `path/to/llvm-mos` or you can add `path/to/llvm-mos/bin` to your PATH
