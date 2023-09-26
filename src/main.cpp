@@ -40,6 +40,11 @@ void init_ppu() {
   // Set up bufferd VRAM operations (see `multi_vram_buffer_horz` below)
   set_vram_buffer();
 
+	// Set the Action 53 to use the chosen CHR bank for the upper half of the PPU
+  // pattern table. Do this first thing after NMI finishes so that we are
+  // still in VBLANK.
+	set_chr_bank(0);
+
   // Use lower half of PPU memory for background tiles
   bank_bg(0);
 	// Copy background tiles to CHR-RAM
@@ -62,6 +67,45 @@ void init_ppu() {
 	// Copy sprite tiles to CHR-RAM
 	vram_adr(0x1000);
 	vram_write(sprite1, sizeof(sprite1) - 1);
+
+	// Set the Action 53 to use the chosen CHR bank for the upper half of the PPU
+  // pattern table. Do this first thing after NMI finishes so that we are
+  // still in VBLANK.
+	set_chr_bank(1);
+
+	// Copy background tiles to CHR-RAM
+	vram_adr(0x0000);
+	vram_write(background, sizeof(background) - 1);
+
+	// Copy sprite tiles to CHR-RAM
+	vram_adr(0x1000);
+	vram_write(sprite2, sizeof(sprite2) - 1);
+	
+	// Set the Action 53 to use the chosen CHR bank for the upper half of the PPU
+  // pattern table. Do this first thing after NMI finishes so that we are
+  // still in VBLANK.
+	set_chr_bank(2);
+
+	// Copy background tiles to CHR-RAM
+	vram_adr(0x0000);
+	vram_write(background, sizeof(background) - 1);
+
+	// Copy sprite tiles to CHR-RAM
+	vram_adr(0x1000);
+	vram_write(sprite1, sizeof(sprite1) - 1);
+	
+	// Set the Action 53 to use the chosen CHR bank for the upper half of the PPU
+  // pattern table. Do this first thing after NMI finishes so that we are
+  // still in VBLANK.
+	set_chr_bank(3);
+
+	// Copy background tiles to CHR-RAM
+	vram_adr(0x0000);
+	vram_write(background, sizeof(background) - 1);
+
+	// Copy sprite tiles to CHR-RAM
+	vram_adr(0x1000);
+	vram_write(sprite2, sizeof(sprite2) - 1);
 	
   // Set the sprite palette
   pal_spr(sprite_pal);
@@ -158,14 +202,6 @@ int main() {
       counter = 0;
       if (++palette_color == 64) palette_color = 0;
       pal_col(3, palette_color);
-
-      // Print the current palette color in hex
-      char buffer[4];
-      std::snprintf(buffer, sizeof(buffer), "$%02x", static_cast<int>(palette_color));
-
-      // Copy the text into the VRAM buffer. This will draw characters at the
-      // given VRAM address during the next vertical blank period.
-      multi_vram_buffer_horz(buffer, 3, NTADR_A(14, 12));
     }
   }
 }
