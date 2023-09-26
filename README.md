@@ -1,4 +1,4 @@
-# Cogwheel's NES Starter Kit
+# Nikku4211's Modified Version of Cogwheel's NES Starter Kit
 
 This is an example project using llvm-mos targeting the Action 53 mapper. It's very much work-in-progress. There will be more to come.
 
